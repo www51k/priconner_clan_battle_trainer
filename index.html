@@ -6,7 +6,7 @@
   <meta name="description" content="プリコネのクランバトルをYouTube動画で練習するブラウザツール">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>クラバトトレーナー</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260828-ux1">
 </head>
 <body>
   <header class="topbar">
@@ -17,19 +17,15 @@
   <main class="app-shell">
     <section class="workspace">
       <div class="setup panel">
-        <label class="url-field">YouTube URL<input id="video-url" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off"></label>
-        <button id="load-video" class="primary">動画を読み込む</button>
-        <label class="file-field">動画ファイル<input id="local-file" type="file" accept="video/*"></label>
-        <label>FPS<input id="fps" type="number" min="1" max="240" step="0.01" value="60"></label>
-        <label>再生速度<select id="speed"><option value="0.25">0.25x</option><option value="0.5">0.5x</option><option value="0.75">0.75x</option><option value="1" selected>1x</option><option value="1.5">1.5x</option><option value="2">2x</option></select></label>
-        <label class="check"><input id="beep-enabled" type="checkbox"> 1秒ごとに電子音</label>
-        <span id="status" class="status" role="status">URLを入力して動画を読み込んでください</span>
+        <div class="setup-heading"><div><span class="section-kicker">VIDEO SOURCE</span><h2>練習する動画</h2></div><span id="source-badge" class="source-badge">未読込</span></div>
+        <div class="source-grid"><label class="url-field">YouTube URL<input id="video-url" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off"></label><button id="load-video" class="primary">URLを読み込む</button><label class="file-field">ローカル動画<input id="local-file" type="file" accept="video/*"></label></div>
+        <div class="practice-settings"><label>FPS<input id="fps" type="number" min="1" max="240" step="0.01" value="60"></label><label>再生速度<select id="speed"><option value="0.25">0.25x</option><option value="0.5">0.5x</option><option value="0.75">0.75x</option><option value="1" selected>1x</option><option value="1.5">1.5x</option><option value="2">2x</option></select></label><label class="check"><input id="beep-enabled" type="checkbox"> 1秒ごとに電子音</label><span id="status" class="status" role="status">URLまたはローカル動画を選択してください</span></div>
       </div>
 
       <div class="video-card panel">
         <div class="video-wrap"><div id="player"></div><video id="local-video" preload="metadata" playsinline hidden></video><button id="click-capture" class="capture" title="目押しを記録 (Enter)">CLICK / ENTER</button></div>
         <div class="frame-strip"><div class="frame-readout"><span id="time-readout">00:00.000</span><strong>F <span id="frame-readout">0</span></strong></div><div class="track"><div id="progress-fill"></div><div id="target-marker"></div></div><div class="frame-context"><span>現在</span><strong id="frame-context">—</strong><span>目標</span><strong id="target-context">—</strong><span>差</span><strong id="delta-context">—</strong></div></div>
-        <div class="controls"><button id="play" title="Space / K">▶ 再生</button><button id="back-frame" title="J / ←" aria-label="1フレーム戻し">◀️ 1f</button><button id="forward-frame" title="L / →" aria-label="1フレーム送り">1f ▶️</button><button id="reverse" title="Shift+J">↶ 低速逆送り</button><span class="control-divider"></span><button id="speed-down">速度−</button><button id="speed-up">速度＋</button><span class="control-divider"></span><button id="mute" title="M">🔊</button><input id="volume" type="range" min="0" max="100" value="70" aria-label="音量"><span id="duration">--:--</span></div>
+        <div class="controls"><button id="back-5" title="5秒戻し">⏪ 5秒</button><button id="back-frame" title="J / ←" aria-label="1フレーム戻し">◀️ 1f</button><button id="play" class="play-button" title="Space / K">▶ 再生</button><button id="forward-frame" title="L / →" aria-label="1フレーム送り">1f ▶️</button><button id="forward-5" title="5秒送り">5秒 ⏩</button><button id="reverse" title="Shift+J">↶ 低速逆送り</button><span class="control-divider"></span><button id="speed-down">速度−</button><button id="speed-up">速度＋</button><button id="stop-practice" title="練習対象を解除">練習解除</button><span class="control-divider"></span><button id="mute" title="M">🔊</button><input id="volume" type="range" min="0" max="100" value="70" aria-label="音量"><span id="duration">--:--</span></div>
         <div class="video-meta"><span id="video-title">動画未読込</span><span id="video-info">再生時間 --:-- / 推定フレーム --</span></div>
       </div>
     </section>
@@ -41,7 +37,7 @@
   </main>
 
   <footer><span>ブラウザ内で処理。自動保存なし。</span><span>推定フレーム = 再生時刻 × FPS</span></footer>
-  <script src="app.js"></script>
+  <script src="app.js?v=20260828-ux1"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
