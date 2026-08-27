@@ -27,13 +27,13 @@
       <div class="video-card panel">
         <div class="video-wrap"><div id="player"></div><button id="click-capture" class="capture" title="目押しを記録 (Enter)">CLICK / ENTER</button></div>
         <div class="frame-strip"><div class="frame-readout"><span id="time-readout">00:00.000</span><strong>F <span id="frame-readout">0</span></strong></div><div class="track"><div id="progress-fill"></div><div id="target-marker"></div></div><div class="frame-context"><span>現在</span><strong id="frame-context">—</strong><span>目標</span><strong id="target-context">—</strong><span>差</span><strong id="delta-context">—</strong></div></div>
-        <div class="controls"><button id="play" title="Space / K">▶ 再生</button><button id="back-frame" title="J / ←">−1f</button><button id="forward-frame" title="L / →">+1f</button><button id="reverse" title="Shift+J">↶ 低速逆送り</button><button id="speed-down">速度−</button><button id="speed-up">速度＋</button><button id="mute" title="M">🔊</button><input id="volume" type="range" min="0" max="100" value="70" aria-label="音量"><span id="duration">--:--</span></div>
+        <div class="controls"><button id="play" title="Space / K">▶ 再生</button><button id="back-frame" title="J / ←">−1f</button><button id="forward-frame" title="L / →">+1f</button><button id="reverse" title="Shift+J">↶ 低速逆送り</button><span class="control-divider"></span><button id="speed-down">速度−</button><button id="speed-up">速度＋</button><span class="control-divider"></span><button id="mute" title="M">🔊</button><input id="volume" type="range" min="0" max="100" value="70" aria-label="音量"><span id="duration">--:--</span></div>
         <div class="video-meta"><span id="video-title">動画未読込</span><span id="video-info">再生時間 --:-- / 推定フレーム --</span></div>
       </div>
     </section>
 
     <aside class="side-panel">
-      <section class="panel tl-panel"><div class="panel-heading"><h2>TL / 概要欄</h2><button id="add-row" class="icon-button" title="行を追加">＋</button></div><textarea id="notes" placeholder="概要欄やTLを貼り付けできます。&#10;行をクリックすると目標フレームへ移動します。"></textarea><div id="tl-list" class="tl-list"></div></section>
+      <section class="panel tl-panel"><div class="panel-heading"><h2>TL / 概要欄</h2><div class="heading-actions"><button id="add-current-row" class="secondary small" title="現在のフレームを目標として追加">現在fを追加</button><button id="add-row" class="icon-button" title="空の行を追加">＋</button></div></div><textarea id="notes" placeholder="概要欄やTLを貼り付けできます。&#10;行をクリックすると目標フレームへ移動します。"></textarea><div id="tl-list" class="tl-list"></div></section>
       <section class="panel log-panel"><div class="panel-heading"><h2>目押しログ</h2><button id="clear-logs" class="text-button">クリア</button></div><div id="log-list" class="log-list"><p class="empty">まだログはありません。動画再生中にクリックしてください。</p></div></section>
     </aside>
   </main>
