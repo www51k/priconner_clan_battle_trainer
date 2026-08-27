@@ -11,7 +11,7 @@
 <body>
   <header class="topbar">
     <div><span class="eyebrow">PRICONNE CLAN BATTLE TOOL</span><h1>クラバトトレーナー</h1></div>
-    <div class="top-actions"><button id="export-button" class="secondary">書き出し</button><button id="import-button" class="secondary">読み込み</button><input id="import-file" type="file" accept="application/json" hidden></div>
+    <div class="top-actions"><button id="export-button" class="secondary">書き出し</button><button id="import-button" class="secondary">読み込み</button><button id="clear-storage" class="secondary" title="ブラウザに保存した設定・TL・ログを削除">保存削除</button><input id="import-file" type="file" accept="application/json" hidden></div>
   </header>
 
   <main class="app-shell">
@@ -36,8 +36,8 @@
     </aside>
   </main>
 
-  <footer><span>ブラウザ内で処理。自動保存なし。</span><span>推定フレーム = 再生時刻 × FPS</span></footer>
-  <script src="app.js?v=20260828-ux1"></script>
+  <footer><span>ブラウザ内に自動保存。外部サーバーへは送信しません。</span><span>推定フレーム = 再生時刻 × FPS</span></footer>
+  <script src="app.js?v=20260828-storage2"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
