@@ -24,6 +24,8 @@ python3 -m http.server 8000
 
 ブラウザで <http://localhost:8000/> を開きます。`file://` 直開きではYouTube IFrame APIやモジュール制約の影響があるため、HTTP経由で開いてください。
 
+`file://` 直開きではYouTube側へ参照元情報を渡せず、埋め込みプレーヤーのエラー153になることがあります。アプリにもHTTP起動が必要であることを表示します。
+
 ## 公開
 
 GitHub Pages / Google Sitesから静的ファイルを公開できます。Google Sitesへは、このアプリをGitHub Pages等に公開したURLを埋め込む方法を想定しています。サーバーやAPIキーは不要です。

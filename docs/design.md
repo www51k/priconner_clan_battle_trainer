@@ -10,6 +10,7 @@
 - `styles.css`: YouTubeに依存しないダークな動画ツールUI
 - `app.js`: YouTube IFrame API、状態管理、描画、JSON入出力、キーボード操作
 - 静的ホスティングのみ。バックエンド、Cookie、localStorage、APIキーは使用しない
+- YouTube IFrame APIの `origin` はHTTP/HTTPSのホストページでのみ `location.origin` を設定する。`file://` 直開きはエラー153回避のため動画読み込み前に案内して停止する。
 
 ## 開発・運用ポリシー
 

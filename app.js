@@ -3,6 +3,7 @@
   'use strict';
   const $ = (id) => document.getElementById(id);
   const state = { player: null, ready: false, videoId: '', rows: [], logs: [], activeRowId: null, practice: null, duration: 0, currentTime: 0, reverseTimer: null, beepTimer: null, audio: null };
+  const isHttpPage = () => window.location.protocol === 'http:' || window.location.protocol === 'https:';
   const fps = () => Math.max(1, Number.parseFloat($('fps').value) || 60);
   const frameAt = (seconds) => Math.max(0, Math.round(seconds * fps()));
   const formatTime = (seconds) => { const s = Math.max(0, Number(seconds) || 0); return `${String(Math.floor(s / 60)).padStart(2, '0')}:${(s % 60).toFixed(3).padStart(6, '0')}`; };
@@ -13,7 +14,9 @@
   window.onYouTubeIframeAPIReady = () => { state.apiReady = true; setStatus('YouTube API準備完了。URLを入力してください'); };
   function createPlayer(videoId) {
     if (state.player) state.player.destroy();
-    state.player = new YT.Player('player', { videoId, playerVars: { playsinline: 1, rel: 0, enablejsapi: 1 }, events: { onReady: onPlayerReady, onStateChange: onPlayerStateChange, onError: () => setStatus('この動画は埋め込み再生できません', true) } });
+    const playerVars = { playsinline: 1, rel: 0, enablejsapi: 1 };
+    if (isHttpPage()) playerVars.origin = window.location.origin;
+    state.player = new YT.Player('player', { videoId, playerVars, events: { onReady: onPlayerReady, onStateChange: onPlayerStateChange, onError: (event) => setStatus(`動画を再生できません（YouTubeエラー ${event.data}）`, true) } });
   }
   function onPlayerReady(event) {
     state.ready = true; state.duration = event.target.getDuration() || 0; event.target.setVolume(Number($('volume').value));
@@ -32,7 +35,7 @@
   }
   const signed = (value) => `${value > 0 ? '+' : ''}${value}f`;
   function activeTarget() { return state.rows.find((row) => row.id === state.activeRowId)?.frame ?? null; }
-  function loadVideo() { const videoId = getVideoId($('video-url').value.trim()); if (!videoId) return setStatus('YouTube URLを確認してください', true); state.videoId = videoId; createPlayer(videoId); setStatus('動画を読み込み中…'); }
+  function loadVideo() { if (!isHttpPage()) return setStatus('file://直開きではYouTubeを再生できません。READMEのHTTP起動方法を使ってください', true); const videoId = getVideoId($('video-url').value.trim()); if (!videoId) return setStatus('YouTube URLを確認してください', true); state.videoId = videoId; createPlayer(videoId); setStatus('動画を読み込み中…'); }
   function seek(seconds, play = false) { if (!state.ready) return; state.player.seekTo(Math.max(0, Math.min(state.duration || Infinity, seconds)), true); if (play) state.player.playVideo(); updatePosition(); }
   function loopPractice() { if (!state.practice || !state.ready || state.practice.looping) return; state.practice.looping = true; seek(state.practice.start); state.player.playVideo(); window.setTimeout(() => { if (state.practice) state.practice.looping = false; }, 250); }
   function togglePlay() { if (!state.ready) return; const playing = state.player.getPlayerState() === YT.PlayerState.PLAYING; playing ? state.player.pauseVideo() : state.player.playVideo(); }
@@ -54,5 +57,5 @@
   function tickBeep(frame) { const second = Math.floor(state.currentTime); if (state.lastBeepSecond !== second) { state.lastBeepSecond = second; beep(); } }
   $('load-video').onclick = loadVideo; $('play').onclick = togglePlay; $('click-capture').onclick = capture; $('back-frame').onclick = () => step(-1); $('forward-frame').onclick = () => step(1); $('reverse').onmousedown = startReverse; $('reverse').onmouseup = stopReverse; $('reverse').onmouseleave = stopReverse; $('speed-down').onclick = () => changeSpeed(-1); $('speed-up').onclick = () => changeSpeed(1); $('speed').onchange = () => state.ready && state.player.setPlaybackRate(Number($('speed').value)); $('volume').oninput = (event) => state.ready && state.player.setVolume(Number(event.target.value)); $('mute').onclick = () => { if (!state.ready) return; state.player.isMuted() ? state.player.unMute() : state.player.mute(); $('mute').textContent = state.player.isMuted() ? '🔇' : '🔊'; }; $('add-row').onclick = () => addRow(); $('add-current-row').onclick = addCurrentFrameRow; $('parse-notes').onclick = parseNotesToRows; $('clear-logs').onclick = () => { state.logs = []; renderLogs(); }; $('export-button').onclick = exportData; $('import-button').onclick = () => $('import-file').click(); $('import-file').onchange = (event) => event.target.files[0] && importData(event.target.files[0]); $('fps').onchange = render; $('beep-enabled').onchange = () => { if (!$('beep-enabled').checked) state.lastBeepSecond = null; };
   document.addEventListener('keydown', (event) => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return; if (event.key === ' ' || event.key.toLowerCase() === 'k') { event.preventDefault(); togglePlay(); } else if (event.key === 'j' || event.key === 'ArrowLeft') step(-1); else if (event.key === 'l' || event.key === 'ArrowRight') step(1); else if (event.key === 'Enter') capture(); else if (event.key.toLowerCase() === 'm') $('mute').click(); else if (event.key.toLowerCase() === 'b') { $('beep-enabled').checked = !$('beep-enabled').checked; } else if (event.shiftKey && event.key.toLowerCase() === 'j') startReverse(); });
-  window.addEventListener('beforeunload', stopReverse); setStatus('YouTube APIを準備中…');
+  window.addEventListener('beforeunload', stopReverse); setStatus(isHttpPage() ? 'YouTube APIを準備中…' : 'file://直開きです。YouTube再生にはHTTP起動が必要です');
 })();
