@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="プリコネの目押しをYouTube動画で練習するブラウザツール">
+  <title>目押しトレーナー</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div><span class="eyebrow">PRICONNE PRACTICE TOOL</span><h1>目押しトレーナー</h1></div>
+    <div class="top-actions"><button id="export-button" class="secondary">書き出し</button><button id="import-button" class="secondary">読み込み</button><input id="import-file" type="file" accept="application/json" hidden></div>
+  </header>
+
+  <main class="app-shell">
+    <section class="workspace">
+      <div class="setup panel">
+        <label class="url-field">YouTube URL<input id="video-url" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off"></label>
+        <button id="load-video" class="primary">動画を読み込む</button>
+        <label>FPS<input id="fps" type="number" min="1" max="240" step="0.01" value="60"></label>
+        <label>再生速度<select id="speed"><option value="0.25">0.25x</option><option value="0.5">0.5x</option><option value="0.75">0.75x</option><option value="1" selected>1x</option><option value="1.5">1.5x</option><option value="2">2x</option></select></label>
+        <label class="check"><input id="beep-enabled" type="checkbox"> 1秒ごとに電子音</label>
+        <span id="status" class="status" role="status">URLを入力して動画を読み込んでください</span>
+      </div>
+
+      <div class="video-card panel">
+        <div class="video-wrap"><div id="player"></div><button id="click-capture" class="capture" title="目押しを記録 (Enter)">CLICK / ENTER</button></div>
+        <div class="frame-strip"><div class="frame-readout"><span id="time-readout">00:00.000</span><strong>F <span id="frame-readout">0</span></strong></div><div class="track"><div id="progress-fill"></div><div id="target-marker"></div></div><div class="frame-context"><span>現在</span><strong id="frame-context">—</strong><span>目標</span><strong id="target-context">—</strong><span>差</span><strong id="delta-context">—</strong></div></div>
+        <div class="controls"><button id="play" title="Space / K">▶ 再生</button><button id="back-frame" title="J / ←">−1f</button><button id="forward-frame" title="L / →">+1f</button><button id="reverse" title="Shift+J">↶ 低速逆送り</button><button id="speed-down">速度−</button><button id="speed-up">速度＋</button><button id="mute" title="M">🔊</button><input id="volume" type="range" min="0" max="100" value="70" aria-label="音量"><span id="duration">--:--</span></div>
+        <div class="video-meta"><span id="video-title">動画未読込</span><span id="video-info">再生時間 --:-- / 推定フレーム --</span></div>
+      </div>
+    </section>
+
+    <aside class="side-panel">
+      <section class="panel tl-panel"><div class="panel-heading"><h2>TL / 概要欄</h2><button id="add-row" class="icon-button" title="行を追加">＋</button></div><textarea id="notes" placeholder="概要欄やTLを貼り付けできます。&#10;行をクリックすると目標フレームへ移動します。"></textarea><div id="tl-list" class="tl-list"></div></section>
+      <section class="panel log-panel"><div class="panel-heading"><h2>目押しログ</h2><button id="clear-logs" class="text-button">クリア</button></div><div id="log-list" class="log-list"><p class="empty">まだログはありません。動画再生中にクリックしてください。</p></div></section>
+    </aside>
+  </main>
+
+  <footer><span>ブラウザ内で処理。自動保存なし。</span><span>推定フレーム = 再生時刻 × FPS</span></footer>
+  <script src="app.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>
