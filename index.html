@@ -11,7 +11,7 @@
 <body>
   <header class="topbar">
     <div><span class="eyebrow">PRICONNE CLAN BATTLE TOOL</span><h1>クラバトトレーナー</h1></div>
-    <div class="top-actions"><button id="export-button" class="secondary">書き出し</button><button id="import-button" class="secondary">読み込み</button><button id="clear-storage" class="secondary" title="ブラウザに保存した設定・TL・ログを削除">保存削除</button><input id="import-file" type="file" accept="application/json" hidden></div>
+    <div class="top-actions"><button id="practice-mode" class="secondary mode-button active">目押し練習</button><button id="damage-mode" class="secondary mode-button">ダメージ確認</button><button id="export-button" class="secondary">書き出し</button><button id="import-button" class="secondary">読み込み</button><button id="clear-storage" class="secondary" title="ブラウザに保存した設定・TL・ログを削除">保存削除</button><input id="import-file" type="file" accept="application/json" hidden></div>
   </header>
 
   <main class="app-shell">
@@ -26,7 +26,7 @@
         <div class="video-wrap"><div id="player"></div><video id="local-video" preload="metadata" playsinline hidden></video><div id="magnifier" class="magnifier" hidden aria-hidden="true"><video id="magnifier-video" muted playsinline></video></div><button id="click-capture" class="capture" title="目押しを記録 (Enter)">CLICK / ENTER</button></div>
         <div class="frame-strip"><div class="frame-readout"><span id="time-readout">00:00.000</span><strong>F <span id="frame-readout">0</span></strong></div><div class="track"><div id="progress-fill"></div><div id="target-marker"></div></div><div class="frame-context"><span>現在</span><strong id="frame-context">—</strong><span>目標</span><strong id="target-context">—</strong><span>差</span><strong id="delta-context">—</strong></div></div>
         <div class="controls"><button id="back-5" title="5秒戻し">⏪ 5秒</button><button id="back-frame" title="J / ←" aria-label="1フレーム戻し">◀️ 1f</button><button id="reverse" title="Shift+J">↶ 逆再生</button><button id="play" class="play-button" title="Space / K">▶ 再生</button><button id="forward-frame" title="L / →" aria-label="1フレーム送り">1f ▶️</button><button id="forward-5" title="5秒送り">5秒 ⏩</button><span class="control-divider"></span><button id="speed-down">速度−</button><button id="speed-up">速度＋</button><button id="stop-practice" title="練習対象を解除">練習解除</button><span class="control-divider"></span><button id="magnifier-toggle" title="ローカル動画はポインタ位置、YouTubeはプレーヤー全体を拡大">🔍 虫眼鏡</button><select id="magnifier-scale" aria-label="虫眼鏡倍率"><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option></select><span class="control-divider"></span><button id="mute" title="M">🔇 ミュート</button><input id="volume" type="range" min="0" max="100" value="70" aria-label="音量"><span id="duration">--:--</span></div>
-        <div class="video-meta"><span id="video-title">動画未読込</span><span id="video-info">再生時間 --:-- / 推定フレーム --</span></div>
+        <div class="video-meta"><span id="video-title">動画未読込</span><span id="video-info">再生時間 --:-- / 推定フレーム --</span></div><button id="loop-practice" class="loop-practice-button" title="選択中の目標の前後をループ再生">↻ ループ再生</button>
       </div>
     </section>
 
@@ -36,8 +36,31 @@
     </aside>
   </main>
 
+  <main id="damage-screen" class="damage-screen" hidden>
+    <section class="damage-videos panel">
+      <div class="panel-heading"><div><span class="section-kicker">DAMAGE REVIEW</span><h2>ダメージ確認</h2></div><span id="damage-status" class="status">動画を2本まで選択できます</span></div>
+      <div class="damage-source-grid">
+        <label>動画1<input id="damage-file-1" type="file" accept="video/*"></label>
+        <label>動画2<input id="damage-file-2" type="file" accept="video/*"></label>
+        <label>FPS 1<input id="damage-fps-1" type="number" min="1" max="240" step="0.01" value="60"></label>
+        <label>FPS 2<input id="damage-fps-2" type="number" min="1" max="240" step="0.01" value="60"></label>
+      </div>
+      <div class="damage-video-grid">
+        <div class="damage-video-pane"><video id="damage-video-1" controls preload="metadata" playsinline></video><div id="damage-meta-1">動画1：未選択</div></div>
+        <div class="damage-video-pane"><video id="damage-video-2" controls preload="metadata" playsinline></video><div id="damage-meta-2">動画2：未選択</div></div>
+      </div>
+      <div class="damage-controls"><button id="damage-play" class="play-button">▶ 再生</button><button id="damage-back-frame">◀ 1f</button><button id="damage-forward-frame">1f ▶</button><button id="damage-back-5">⏪ 5秒</button><button id="damage-forward-5">5秒 ⏩</button><span id="damage-time">00:00.000</span><button id="damage-add-row" class="primary">現在秒を追加</button></div>
+    </section>
+    <section class="damage-table-panel panel">
+      <div class="panel-heading"><h2>秒数ごとの記録</h2><span class="status">秒数をタップすると両方の動画をシーク</span></div>
+      <div class="damage-table-wrap"><table class="damage-table"><thead><tr><th>秒数</th><th>ダメージ1</th><th>ダメージ2</th><th>フレーム番号1</th><th>フレーム番号2</th><th></th></tr></thead><tbody id="damage-rows"></tbody></table></div>
+      <p id="damage-empty" class="empty">「現在秒を追加」から記録を追加してください。</p>
+    </section>
+  </main>
+
   <footer><span>ブラウザ内に自動保存。外部サーバーへは送信しません。</span><span>推定フレーム = 再生時刻 × FPS</span></footer>
-  <script src="app.js?v=20260828-magnifier1"></script>
+  <script src="app.js?v=20260828-loop15"></script>
+  <script src="damage-review.js?v=20260828-1"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
