@@ -6,7 +6,7 @@
   const state = { player: null, localVideo: $('local-video'), magnifierVideo: $('magnifier-video'), ready: false, mode: 'none', magnifier: false, videoId: '', localObjectUrl: '', localFileName: '', rows: [], logs: [], activeRowId: null, preview: null, practice: null, duration: 0, currentTime: 0, reverseTimer: null, reversePractice: false, pendingYouTubePlayUntil: 0, beepTimer: null, audio: null };
   const isHttpPage = () => window.location.protocol === 'http:' || window.location.protocol === 'https:';
   const fps = () => Math.max(1, Number.parseFloat($('fps').value) || 60);
-  const frameAt = (seconds) => Math.max(0, Math.round(seconds * fps()));
+  const frameAt = (seconds) => Math.max(0, Math.floor(seconds * fps()));
   const formatTime = (seconds) => { const s = Math.max(0, Number(seconds) || 0); return `${String(Math.floor(s / 60)).padStart(2, '0')}:${(s % 60).toFixed(3).padStart(6, '0')}`; };
   const id = (prefix) => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
   const getVideoId = (value) => { try { const url = new URL(value); if (url.hostname === 'youtu.be') return url.pathname.slice(1).split('/')[0]; if (url.hostname.endsWith('youtube.com')) return url.searchParams.get('v') || url.pathname.match(/\/shorts\/([^/]+)/)?.[1] || url.pathname.match(/\/embed\/([^/]+)/)?.[1] || ''; } catch (_) {} return ''; };
