@@ -7,3 +7,4 @@
 .log-heading{display:flex;align-items:center;gap:10px;min-width:0}.log-heading .average-delta{white-space:nowrap}
 .capture{right:10px;bottom:10px;padding:7px 10px;font-size:10px;letter-spacing:.02em;box-shadow:0 2px 8px #0008}
 @media(max-width:600px){.capture{right:6px;bottom:6px;padding:5px 7px;font-size:9px}}
+@media(max-width:600px){.side-panel .log-panel{order:-1}}
