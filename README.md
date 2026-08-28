@@ -20,6 +20,10 @@ YouTube動画を見ながら目押しのクリック位置を練習し、指定�
 
 ## 起動
 
+通常利用は公開版を開いてください。Pythonの起動は不要です。
+
+公開版: <https://www51k.github.io/priconner_clan_battle_trainer/>
+
 ビルド不要の静的サイトです。ローカル確認は次のいずれかで行えます。
 
 ```sh
