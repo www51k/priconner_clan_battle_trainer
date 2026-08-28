@@ -6,7 +6,7 @@
   <meta name="description" content="プリコネのクランバトルをYouTube動画で練習するブラウザツール">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>クラバトトレーナー</title>
-  <link rel="stylesheet" href="styles.css?v=20260828-ux2">
+  <link rel="stylesheet" href="styles.css?v=20260828-ux3">
 </head>
 <body>
   <header class="topbar">
@@ -32,7 +32,7 @@
 
     <aside class="side-panel">
       <section class="panel tl-panel"><div class="panel-heading"><h2>TL / 概要欄</h2><div class="heading-actions"><button id="parse-notes" class="secondary small" title="TLの時刻表記から目標行を作成">TLを行化</button><button id="add-current-row" class="secondary small" title="現在のフレームを目標として追加">現在fを追加</button><button id="add-row" class="icon-button" title="空の行を追加">＋</button></div></div><textarea id="notes" placeholder="概要欄やTLを貼り付けできます。&#10;行をクリックすると目標フレームへ移動します。"></textarea><div id="tl-list" class="tl-list"></div></section>
-      <section class="panel log-panel"><div class="panel-heading"><h2>目押しログ</h2><div class="heading-actions"><span id="average-delta" class="average-delta">直近10回平均 —</span><button id="clear-logs" class="text-button">クリア</button></div></div><div id="log-list" class="log-list"><p class="empty">まだログはありません。動画再生中にクリックしてください。</p></div></section>
+      <section class="panel log-panel"><div class="panel-heading"><h2>目押しログ</h2><button id="clear-logs" class="text-button">クリア</button></div><div class="log-summary"><span>直近10回の平均差</span><strong id="average-delta">—</strong></div><div id="log-list" class="log-list"><p class="empty">まだログはありません。動画再生中にクリックしてください。</p></div></section>
     </aside>
   </main>
 
@@ -59,7 +59,7 @@
   </main>
 
   <footer><span>ブラウザ内に自動保存。外部サーバーへは送信しません。</span><span>推定フレーム = 再生時刻 × FPS</span></footer>
-  <script src="app.js?v=20260828-capture-sync2"></script>
+  <script src="app.js?v=20260828-capture-sync3"></script>
   <script src="damage-review.js?v=20260828-1"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
 </body>
